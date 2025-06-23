@@ -1,0 +1,31 @@
+{% load static %}
+<!DOCTYPE html>
+<html lang="en">
+<head>
+  <meta charset="UTF-8" />
+  <meta name="viewport" content="width=device-width, initial-scale=1.0"/>
+  <title>Register | Kanhaiya Lal Bohra</title>
+  <link rel="stylesheet" href="{% static 'style.css' %}"/>
+</head>
+<body class="form-page">
+  <div class="form-container">
+    <h2>Register</h2>
+    <form method="post" novalidate>
+      {% csrf_token %}
+
+      {% for field in form %}
+        <div class="form-group">
+          {{ field.label_tag }}
+          {{ field }}
+          {% if field.errors %}
+            <div class="error">{{ field.errors|striptags }}</div>
+          {% endif %}
+        </div>
+      {% endfor %}
+
+      <button type="submit">Register</button>
+      <p>Already have an account? <a href="{% url 'Login' %}">Login</a></p>
+    </form>
+  </div>
+</body>
+</html>

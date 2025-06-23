@@ -1,0 +1,58 @@
+{% load static %}
+<!DOCTYPE html>
+<html lang="en">
+<head>
+  <meta charset="UTF-8" />
+  <meta name="viewport" content="width=device-width, initial-scale=1.0"/>
+  <title>Kanhaiya Lal Bohra | Developer</title>
+  <link rel="stylesheet" href="{% static 'style.css' %}"/>
+</head>
+<body>
+  <header>
+    <div class="logo">Kanhaiya Lal Bohra</div>
+    <nav>
+      <a href="../contact" class="btn">Contact Us</a>
+
+      {% if request.COOKIES.is_authenticated == "true" %}
+        <!-- Display logout if the user is authenticated -->
+        <a href="{% url 'Logout' %}" class="btn outline">Logout</a>
+      {% else %}
+        <!-- Display login if the user is not authenticated -->
+        <a href="{% url 'Login' %}" class="btn outline">Login</a>
+      {% endif %}
+
+    </nav>
+  </header>
+
+  <section class="hero">
+    <h1>Expert Freelance Developer</h1>
+    <p>Telegram Bots · Automation · Full-stack Web Apps</p>
+    <a href="https://www.fiverr.com/bohraa" class="btn">Hire Me on Fiverr</a>
+  </section>
+
+  <section class="about">
+    <h2>About Me</h2>
+    <p>
+      I am a freelance developer specializing in Telegram bot development, automation, and full-stack web applications.
+      I've worked with 40+ global clients via Fiverr and Upwork, delivering custom solutions in Python, Flutter, and React.
+    </p>
+    <p>
+      My work includes anonymous chatbots, Google Maps data scrapers, Discord bots, and SaaS platforms.
+      With a 5.0-star rating and a reputation for timely, high-quality delivery, I bring strong technical skills and client-focused solutions.
+    </p>
+  </section>
+
+  <section class="info-grid">
+    <div><strong>Hiring Since:</strong> 2025</div>
+    <div><strong>Employee Count:</strong> 0–1</div>
+    <div><strong>Opportunities Posted:</strong> 1</div>
+    <div><strong>Candidates Hired:</strong> 0</div>
+    <div><strong>Location:</strong> Bikaner, India</div>
+    <div><strong>Industry:</strong> IT / Technology</div>
+  </section>
+
+  <footer>
+    <p>© 2025 Kanhaiya Lal Bohra. All rights reserved.</p>
+  </footer>
+</body>
+</html>
