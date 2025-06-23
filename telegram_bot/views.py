@@ -1,10 +1,9 @@
 from django.shortcuts import render, redirect
-from django.contrib.auth import login, authenticate, logout
+from django.contrib.auth import authenticate
 from .accounts_forms import RegisterForm, LoginForm
-from django.contrib.auth.decorators import login_required
 from django.contrib import messages
 from rest_framework_simplejwt.tokens import RefreshToken
-from rest_framework.permissions import IsAuthenticated
+from celery_setup.background_task import send_email_helper
 
 def redirect_to_home(request):
     return redirect('home/')
@@ -57,8 +56,8 @@ def register_view(request):
     form = RegisterForm(request.POST or None)
     if form.is_valid():
         user = form.save()
-        # login(request, user)
-        return redirect('Home')  # Replace with your homepage name
+        send_email_helper.delay([form.cleaned_data.get('email')])
+        return redirect('Home')
 
     return render(request, 'register.html', {'form': form})
 
