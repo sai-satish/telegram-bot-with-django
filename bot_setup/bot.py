@@ -5,27 +5,32 @@ from telegram import Update
 # from .models import TelegramUser
 from django.utils import timezone
 from django.apps import apps
+from asgiref.sync import sync_to_async
 
 load_dotenv()
 bot_token = os.getenv("BOT_TOKEN")
 
-async def start(update: Update, context: ContextTypes.DEFAULT_TYPE):
+@sync_to_async
+def create_telegram_user(user_name, chat_creation_timestamp):
     TelegramUser = apps.get_model('bot_setup.TelegramUser')  # Access the model dynamically
-    user_name = update.message.from_user.username
-    if user_name:
-        user_name = f"@{user_name}"
-    else:
-        user_name = update.message.from_user.full_name or "unknown user" # Fallback if no username
-    chat_creation_timestamp = update.message.date
-    chat_creation_timestamp = timezone.make_aware(chat_creation_timestamp)
-    
     TelegramUser.objects.create(
         user_name=user_name,
         chat_creation_timestamp=chat_creation_timestamp
     )
     
 
-
+async def start(update: Update, context: ContextTypes.DEFAULT_TYPE):
+    user_name = update.message.from_user.username
+    if user_name:
+        user_name = f"@{user_name}"
+    else:
+        user_name = update.message.from_user.full_name or "unknown user" # Fallback if no username
+    chat_creation_timestamp = update.message.date
+    if chat_creation_timestamp.tzinfo is not None:
+        chat_creation_timestamp = chat_creation_timestamp.replace(tzinfo=None)
+    chat_creation_timestamp = timezone.make_aware(chat_creation_timestamp)
+    
+    await create_telegram_user(user_name, chat_creation_timestamp)
 
     await update.message.reply_text(
         """

@@ -3,7 +3,7 @@ from django.apps import AppConfig
 from .tasks import start_bot
 
 class TelegramBotConfig(AppConfig):
-    name = 'telegram_bot'
+    name = 'bot_setup'
 
     def ready(self):
         # Start the bot via Celery task
