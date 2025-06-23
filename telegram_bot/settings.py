@@ -36,6 +36,7 @@ ALLOWED_HOSTS = ['127.0.0.1']
 INSTALLED_APPS = [
     'rest_framework',
     'rest_framework_simplejwt',
+    'bot_setup',
     'django.contrib.admin',
     'django.contrib.auth',
     'django.contrib.contenttypes',
